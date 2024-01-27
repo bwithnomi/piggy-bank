@@ -1,5 +1,5 @@
 # piggy-bank
-
+Piggy Bank is a crypto wallet inspired by Metamask.
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
