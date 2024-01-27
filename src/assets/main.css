@@ -1,0 +1,18 @@
+@import './base.css';
+
+#app {
+  width: 357px;
+  margin: 0 auto;
+  font-weight: normal;
+  background-color: white;
+}
+
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body{
+  background-color: black;
+}

@@ -1,0 +1,19 @@
+{
+  "name": "Piggy Bank",
+  "version": "1.0",
+  "manifest_version": 3,
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "action": {
+    "default_title": "Piggy Bank",
+    "default_popup": "./dist/index.html",
+    "default_icon": {
+      "32": "src/assets/brand-white-removebg.png",
+      "72": "src/assets/brand-white-removebg.png",
+      "128": "src/assets/brand-white-removebg.png",
+      "512": "src/assets/brand-white-removebg.png"
+    }
+  }
+}
