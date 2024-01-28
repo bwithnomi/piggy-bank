@@ -5,7 +5,7 @@
           size="4em"
         />
   </div>
-  <div class="full-height column justify-center" v-else>
+  <div class="full-height column justify-center" v-else-if="!loading && createAccountCheck">
     <h4 class="text-center text-h4 q-mb-none">Are you sure to reset current wallet?</h4>
     <p class="text-body1 text-center text-red text-bold">Drag the bar below from left to right for confirmation</p>
 
@@ -27,8 +27,27 @@
       </q-slide-item>
     </div>
   </div>
-  <div class="">
-    <p>{{ mnemonic }}</p>
+  <!--  -->
+  <div class="full-height column justify-center" v-else-if="!loading && !createAccountCheck">
+    <q-banner class="bg-pink-2 text-white q-mb-sm" rounded>
+      <template v-slot:avatar>
+        <q-icon name="account_balance_wallet" color="pink-7" />
+      </template>
+      {{ mnemonic }}
+      <template v-slot:action>
+        <q-btn color="pink-6" unelevated label="Copy" text-color="white" no-caps @click="copyToClipboard(mnemonic)" />
+      </template>
+    </q-banner>
+    <q-banner class="bg-teal-3 text-white q-mb-md" style="word-break: break-all;" rounded>
+      <template v-slot:avatar>
+        <q-icon name="security" color="teal-7" />
+      </template>
+      {{ account.private_key }}
+      <template v-slot:action>
+        <q-btn color="teal-6" unelevated label="Copy" text-color="white" no-caps @click="copyToClipboard(account.private_key)" />
+      </template>
+    </q-banner>
+    <q-btn label="Go to home" color="teal" :to="{name: 'home'}"></q-btn>
   </div>
 </template>
 <script setup lang="ts">
@@ -38,56 +57,46 @@ import { QForm } from "quasar";
 import router from "@/router"
 import rules from "@/composables/validation-rules"
 import useHash from "@/composables/hash"
-import createAccount from "@/composables/create-account"
+import createAccount from "@/composables/create-wallet"
 import { createCipher } from "@/composables/crypto";
 import type { Account } from "@/composables/account";
+import { useWalletStore } from "@/stores/wallet"
+import copyToClipboard from "@/composables/clipboard"
 
+const walletStore = useWalletStore();
 const loading = ref(false);
+const createAccountCheck = ref(true);
 const confirmed = async () => {
   loading.value = true;
   let wallet = createAccount();
   mnemonic.value = wallet._mnemonic().phrase;
+  account.value.private_key = createCipher(wallet.privateKey);
+  account.value.address = wallet.address;
+  localStorage.setItem(useHash('password'), createCipher(""));
+  localStorage.setItem(useHash('accounts'), createCipher(JSON.stringify([account.value])));
+  localStorage.setItem(useHash('signin'), createCipher("true"));
+  walletStore.accounts = [account.value];
+  loading.value = false;
+  createAccountCheck.value = false;
 }
+const account = ref<Account>({
+  address: "",
+  private_key: ""
+})
 const mnemonic = ref("");
 
 // blind cliff swing risk solve half adapt slab grace chest hockey guess
+//merry flame athlete blanket rose banner ensure circle tuna later exhibit shine
+//either ability tell eagle honey unknown kiwi flower pepper chaos settle engage
+//spring pelican frog lobster blame sunny sponsor census toy mobile ranch simple
 const form = ref<QForm>()
 const passphrase = ref<string>("")
 const password = ref<string>("")
 const confirmPssword = ref<string>("")
 const invalidPhrase = ref(false)
-const submitForm = async () => {
-  form.value?.validate().then(async (s: boolean) => {
-    if (s) {
-      try {
-        const wallet = ethers.Wallet.fromMnemonic(passphrase.value);
-        const account: Account = {
-          address: wallet.address,
-          private_key: createCipher(wallet.privateKey),
-        }
-        localStorage.setItem(useHash('password'), createCipher(password.value));
-        localStorage.setItem(useHash('accounts'), createCipher(JSON.stringify([account])));
-        localStorage.setItem(useHash('signin'), createCipher("true"));
-        invalidPhrase.value = false
-        router.push({ path: "/" })
-      } catch (error) {
-        invalidPhrase.value = true
-      }
-
-    }
-  })
-}
 onMounted(async () => {
-  // const wallet = ethers.Wallet.fromMnemonic("blind cliff swing risk solve half adapt slab grace chest hockey guess");
-  // console.log(await wallet.getAddress());
-
-  // // const wallet = ethers.Wallet.createRandom();
-  // // wallet.encrypt("dsaasd", )
-  // console.log(wallet._mnemonic().phrase);
-
-
 })
 </script>
 <style lang="">
   
-</style>
+</style>@/composables/create-wallet

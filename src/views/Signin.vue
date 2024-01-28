@@ -41,7 +41,7 @@ const signin = async () => {
     if (s) {
       let pass = localStorage.getItem(useHash("password"));
       
-      if (decryptCipher(pass) == text.value) {
+      if (decryptCipher(pass || "") == text.value) {
         localStorage.setItem(useHash("signin"),createCipher("true"));
         router.push({name: "home"})
       } else {
