@@ -1,8 +1,8 @@
 import './assets/main.css'
 import { createApp } from 'vue'
-import { createPinia } from 'pinia'
 import { Quasar } from 'quasar'
 import { ethers } from 'ethers'
+import pinia from "@/pinia"
 
 // Import icon libraries
 import '@quasar/extras/material-icons/material-icons.css'
@@ -19,7 +19,7 @@ declare global {
 }
 const app = createApp(App)
 
-app.use(createPinia())
+app.use(pinia)
 app.use(router)
 app.use(Quasar, {
   plugins: {}, // import Quasar plugins and add here

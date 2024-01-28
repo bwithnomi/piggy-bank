@@ -1,6 +1,6 @@
+import { Account } from './../composables/account';
 import type { Account } from '@/composables/account';
 import type { Network } from '@/composables/network-change';
-import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useWalletStore = defineStore({
@@ -14,5 +14,18 @@ export const useWalletStore = defineStore({
       curreny_symbol: ""
     } as Network,
     accounts: [] as Account[],
-  })
+    currentAccount: {} as Account,
+  }),
+  getters: {
+    getCurrentAccount(): Account | null {
+      if (this.accounts.length > 0) {
+        return this.accounts[0]
+      }
+      return null;
+    }
+  },
+  actions: {
+  },
+  persist: true,
 })
+

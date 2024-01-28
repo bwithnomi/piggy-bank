@@ -22,7 +22,7 @@ export const networks: Network[] = [
     rpc: "https://eth-sepolia.g.alchemy.com/v2/oqZGNsE_YVZUaneZzyEy1s2tGKBRVL-p",
     chainId: 11155111,
     explorer_url: "https://sepolia.etherscan.io/",
-    curreny_symbol: "ETH",
+    curreny_symbol: "SepoliaETH",
   },
 ]
 

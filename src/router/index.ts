@@ -48,18 +48,17 @@ const router = createRouter({
 })
 
 
-// router.beforeEach((to, from, next) => {
-//   const password = localStorage.getItem(useHash('password'));
-//   let signin = localStorage.getItem(useHash('signin'));
-  
-//   signin = decryptCipher(signin)
-//   if (to.meta.requiresAuth && (password === null || !signin)) {
-//     next({ name: "signin" });
-//   } if (to.meta.isGuest && (password || signin)) {
-//     next({ name: "home" });
-//   } else {
-//     next();
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  const password = localStorage.getItem(useHash('password'));
+  let signin = localStorage.getItem(useHash('signin'));
+  signin = decryptCipher(signin || "")
+  if (to.meta.requiresAuth && (password === null || !signin)) {
+    next({ name: "signin" });
+  } if (to.meta.isGuest && (password && signin)) {
+    next({ name: "home" });
+  } else {
+    next();
+  }
+})
 
 export default router
