@@ -1,4 +1,3 @@
-import { Account } from './../composables/account';
 import type { Account } from '@/composables/account';
 import type { Network } from '@/composables/network-change';
 import { defineStore } from 'pinia'
