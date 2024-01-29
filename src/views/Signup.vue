@@ -72,7 +72,7 @@ const confirmed = async () => {
   mnemonic.value = wallet._mnemonic().phrase;
   account.value.private_key = createCipher(wallet.privateKey);
   account.value.address = wallet.address;
-  localStorage.setItem(useHash('password'), createCipher(""));
+  localStorage.setItem(useHash('password'), createCipher(mnemonic.value));
   localStorage.setItem(useHash('accounts'), createCipher(JSON.stringify([account.value])));
   localStorage.setItem(useHash('signin'), createCipher("true"));
   walletStore.accounts = [account.value];
@@ -89,6 +89,7 @@ const mnemonic = ref("");
 //merry flame athlete blanket rose banner ensure circle tuna later exhibit shine
 //either ability tell eagle honey unknown kiwi flower pepper chaos settle engage
 //spring pelican frog lobster blame sunny sponsor census toy mobile ranch simple
+//hero lunch magnet pretty sudden velvet trouble arctic much holiday cattle install
 const form = ref<QForm>()
 const passphrase = ref<string>("")
 const password = ref<string>("")

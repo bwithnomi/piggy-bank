@@ -9,16 +9,19 @@
       <p class="text-h4 q-mt-sm">{{ `${balance}${network.curreny_symbol}` }}</p>
     </div>
     <q-separator />
+    <q-btn @click="lockWallet" label="Lock Wallet" no-caps icon="lock" unelevated color="teal-6" class="q-mt-md" />
   </div>
 </template>
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from "vue"
 import { useWalletStore } from "@/stores/wallet"
 import copyToClipboard from "@/composables/clipboard"
-import { decryptCipher } from "@/composables/crypto";
+import { createCipher, decryptCipher } from "@/composables/crypto";
 import { getSigner } from "@/composables/signer";
 import { ethers } from "ethers"
 import { storeToRefs } from "pinia";
+import useHash from "@/composables/hash";
+import router from "@/router";
 
 const walletStore = useWalletStore();
 const rawBalance = ref<ethers.BigNumber>(ethers.BigNumber.from(0))
@@ -35,7 +38,13 @@ private_key = decryptCipher(private_key || "")
 const signer = computed(() => {
   return new ethers.Wallet(private_key || "", provider.value)
 });
+const lockWallet = () => {
+  console.log('lock');
+  localStorage.setItem(useHash("signin"),createCipher("false"));
+  router.push({ path: "/" })
+}
 watch(network, async () => {
+  
   rawBalance.value = ethers.BigNumber.from(0)
   rawBalance.value = await signer.value.getBalance();
 
